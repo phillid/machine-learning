@@ -31,7 +31,7 @@ void vector_normalise(struct vector *v)
 	unsigned long i = 0;
 	double scale = 0;
 
-	scale = abs(v->values[0]);
+	scale = fabs(v->values[0]);
 
 	for (i = 0; i < v->dimensions; i++)
 		v->values[i] /= scale;

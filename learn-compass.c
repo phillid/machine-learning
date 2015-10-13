@@ -15,7 +15,7 @@ void plot(struct vector *v);
 
 /* to do: make non-global */
 struct vector *data[TRAINING_SIZE];
-struct window wind = {0};
+struct window wind;
 
 
 int main()
@@ -128,7 +128,7 @@ void train()
 		if (!fgets(buffer, sizeof(buffer), stdin))
 		{
 			fprintf(stderr, "Failed to get line from stdin");
-			return EXIT_FAILURE;
+			return;
 		}
 		v->label = strdup(buffer);
 		vector_normalise(v);

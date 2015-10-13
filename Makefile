@@ -1,11 +1,4 @@
-CFLAGS += \
-	-I/usr/include/SDL2 \
-	-Wall \
-	-Wextra \
-	-Werror
-LDFLAGS += \
-	-lm \
-	-lSDL2
+include config.mk
 
 all: learn-colour learn-compass
 
