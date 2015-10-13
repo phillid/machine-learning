@@ -7,18 +7,9 @@ LDFLAGS += \
 	-lm \
 	-lSDL2
 
-all: colour-ai compass
+all: learn-colour learn-compass
 
-compass: \
-	compass.o \
-	window.o\
-	vector.o
-	$(CC) -o $@ $^ $(LDFLAGS)
-
-colour-ai:\
-	colour-ai.o \
-	window.o \
-	vector.o
+learn-%: learn-%.o window.o vector.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 
@@ -27,7 +18,7 @@ colour-ai:\
 
 
 clean:
-	rm -f colour-ai compass
+	rm -f learn-compass learn-colour
 	find -name "*.o" -delete
 
 

@@ -52,12 +52,10 @@ double vector_error(const struct vector *v1, const struct vector *v2)
 }
 
 /* fill existing vector with random values between min and max */
-void vector_random_values(struct vector *v, double min, double max)
+void vector_random_values(struct vector *v, long min, long max)
 {
 	unsigned long i;
 	/* FIXME check if need to use drand */
 	for (i = 0; i < v->dimensions; i++)
-	{
-		v->values[i] = min + rand()%(max - min)
-	}
+		v->values[i] = min + rand()%(int)(max - min);
 }
