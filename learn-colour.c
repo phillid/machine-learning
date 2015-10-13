@@ -10,7 +10,7 @@
 
 #define TRAINING_SIZE 60
 
-void train();
+int train();
 void plot(struct vector *v);
 
 /* to do: make non-global */
@@ -32,7 +32,8 @@ int main()
 	display_init(&wind, false);
 	int i = 0;
 
-	train();
+	if (train() == EXIT_FAILURE)
+		return EXIT_FAILURE;
 
 	running = true;
 	new = true;
@@ -44,9 +45,6 @@ int main()
 			double error = 0;
 			/* choose a random vector */
 			vector_random_values(v, 0, 255);
-			v->values[0] = wind.width/2 - rand()%255;
-			v->values[1] = wind.height/2 - rand()%255;
-			v->values[2] = wind.height/2 - rand()%255;
 			plot(v);
 			vector_normalise(v);
 			double min = vector_error(data[0], v);
@@ -93,6 +91,13 @@ int main()
 
 void plot(struct vector *v)
 {
+	/* assert that the vector has correct dimensions */
+	if (v->dimensions != 3)
+	{
+		fprintf(stderr, "plot: need a 3-D vector, got a %lu-D one\n", v->dimensions);
+		return;
+	}
+
 	/* Clear/blank surface with grey, and update it */
 	SDL_FillRect(wind.surface,
 				 NULL,
@@ -101,7 +106,7 @@ void plot(struct vector *v)
 	SDL_UpdateWindowSurface(wind.window);
 }
 
-void train()
+int train()
 {
 	int i = 0;
 	struct vector *v = NULL;
@@ -111,21 +116,18 @@ void train()
 	for (i = 0; i < TRAINING_SIZE; i++)
 	{
 		v = vector_new(3);
-		/* choose a random vector */
-		v->values[0] = rand()%255;
-		v->values[1] = rand()%255;
-		v->values[2] = rand()%255;
+		vector_random_values(v, 0, 255);
 
 		plot(v);
-		//SDL_UpdateWindowSurface(wind.window);
 
 		printf("\nLabel: ");
 		if (!fgets(buffer, sizeof(buffer), stdin))
 		{
 			fprintf(stderr, "Failed to get line from stdin");
-			return;
+			return EXIT_FAILURE;
 		}
 		v->label = strdup(buffer);
 		data[i] = v;
 	}
+	return EXIT_SUCCESS;
 }
