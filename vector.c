@@ -5,6 +5,7 @@
 #include "vector.h"
 
 
+/* create new vector of specified dimensions */
 struct vector *vector_new(unsigned long dimensions)
 {
 	struct vector *v = NULL;
@@ -25,7 +26,21 @@ struct vector *vector_new(unsigned long dimensions)
 	return v;
 }
 
-/* scaled vector to normalise along first dimension */
+
+/* destroy a vector allocated with vector_new
+ * free()s the value array and finally frees the vector
+ */
+void vector_destroy(struct vector *v)
+{
+	unsigned long i = 0;
+	for (i = 0; i < v->dimensions; i++)
+		free(v->values[i]);
+
+	free(v);
+}
+
+
+/* scale vector to normalise along first dimension */
 void vector_normalise(struct vector *v)
 {
 	unsigned long i = 0;
@@ -55,6 +70,8 @@ void vector_average(struct vector *v, struct vector **vs, const unsigned long co
 {
 	unsigned long i = 0;
 	unsigned long dim = 0;
+
+	/* FIXME: doesn't check that dimensions line up */
 
 	for (dim = 0; dim < v->dimensions; dim++)
 	{
