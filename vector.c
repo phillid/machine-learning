@@ -15,7 +15,7 @@ struct vector *vector_new(unsigned long dimensions)
 		return NULL;
 
 	v->values = malloc(dimensions * sizeof(vector_value_type));
-	
+
 	if (!v->values)
 	{
 		free(v);
@@ -49,6 +49,21 @@ double vector_error(const struct vector *v1, const struct vector *v2)
 		running += pow(v2->values[i] - v1->values[i], 2);
 
 	return sqrt(running);
+}
+
+void vector_average(struct vector *v, struct vector **vs, const unsigned long count)
+{
+	unsigned long i = 0;
+	unsigned long dim = 0;
+
+	for (dim = 0; dim < v->dimensions; dim++)
+	{
+		v->values[dim] = 0.f;
+		for (i = 0; i < count; i++)
+			v->values[dim] += vs[i]->values[dim];
+
+		v->values[dim] /= i;
+	}
 }
 
 /* fill existing vector with random values between min and max */
