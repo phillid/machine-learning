@@ -13,7 +13,7 @@ struct window {
 	char* title;
 };
 
-int display_init(struct window *wobj, bool use_renderer);
+int display_init(struct window *wobj);
 void display_stop(struct window *wobj);
 
 

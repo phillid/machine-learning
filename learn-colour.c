@@ -17,21 +17,23 @@ void plot(struct vector *v);
 struct vector *data[TRAINING_SIZE];
 struct window wind;
 
-
-
 int main()
 {
 	SDL_Event e = {0};
 	bool running = false;
 	bool new = false;
+	int i = 0;
+	struct vector *v = NULL;
+	double error = 0;
+	double min_error = 0;
 
 	/* Start SDL window */
 	wind.title = "Simple machine learning of colours";
 	wind.width = 600;
 	wind.height = 600;
-	display_init(&wind, false);
-	int i = 0;
-
+	if (display_init(&wind) == EXIT_FAILURE)
+		return EXIT_FAILURE;
+	
 	if (train() == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
@@ -41,19 +43,19 @@ int main()
 	{
 		if (new)
 		{
-			struct vector *v = vector_new(3);
-			double error = 0;
+			v = vector_new(3);
 			/* choose a random vector */
 			vector_random_values(v, 0, 255);
 			plot(v);
 			vector_normalise(v);
-			double min = vector_error(data[0], v);
+			/* FIXME: be separate func */
+			min_error = vector_error(data[0], v);
 			for (i = 0; i < TRAINING_SIZE; i++)
 			{
 				error = vector_error(data[i], v);
-				if (error < min)
+				if (error < min_error)
 				{
-					min = error;
+					min_error = error;
 					v->label = data[i]->label;
 				}
 			}
@@ -106,7 +108,7 @@ void plot(struct vector *v)
 	/* Clear/blank surface with grey, and update it */
 	SDL_FillRect(wind.surface,
 				 NULL,
-				 SDL_MapRGB(wind.surface->format,
+				 SDL_MapHSV(wind.surface->format,
 				            v->values[0], v->values[1], v->values[2]));
 	SDL_UpdateWindowSurface(wind.window);
 }
