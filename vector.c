@@ -15,7 +15,7 @@ struct vector *vector_new(unsigned long dimensions)
 	if (!v)
 		return NULL;
 
-	v->values = malloc(dimensions * sizeof(vector_value_type));
+	v->values = malloc(dimensions * sizeof(double));
 
 	if (!v->values)
 	{
@@ -32,10 +32,7 @@ struct vector *vector_new(unsigned long dimensions)
  */
 void vector_destroy(struct vector *v)
 {
-	unsigned long i = 0;
-	for (i = 0; i < v->dimensions; i++)
-		free(v->values[i]);
-
+	free(v->values);
 	free(v);
 }
 
