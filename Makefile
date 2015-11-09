@@ -1,6 +1,6 @@
 include config.mk
 
-all: learn-colour learn-compass
+all: learn-colour
 
 learn-%: learn-%.o window.o vector.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
