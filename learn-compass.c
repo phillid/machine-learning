@@ -8,7 +8,7 @@
 
 #define PIXELS(s) ((uint32_t*)(s->pixels))
 
-#define TRAINING_SIZE 40
+#define TRAINING_SIZE 15
 
 void train();
 void plot(struct vector *v);
@@ -58,6 +58,7 @@ int main()
 				}
 			}
 			printf("I think this is %s\n", v->label);
+			vector_destroy(v);
 			new = false;
 		}
 		SDL_WaitEvent(&e);
@@ -85,6 +86,10 @@ int main()
 	}
 	
 	display_stop(&wind);
+	
+	for (i = 0; i < TRAINING_SIZE; i++)
+		vector_destroy(data[i]);
+	
 	return 0;
 }
 
@@ -122,7 +127,6 @@ void train()
 		v->values[1] = (int)(wind.height/2 - rand()%wind.height);
 
 		plot(v);
-		//SDL_UpdateWindowSurface(wind.window);
 
 		printf("\nLabel: ");
 		if (!fgets(buffer, sizeof(buffer), stdin))

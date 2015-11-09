@@ -58,6 +58,7 @@ int main()
 				}
 			}
 			printf("I think this is %s\n", v->label);
+			vector_destroy(v);
 			new = false;
 		}
 		SDL_WaitEvent(&e);
@@ -85,6 +86,10 @@ int main()
 	}
 	
 	display_stop(&wind);
+	
+	for (i = 0; i < TRAINING_SIZE; i++)
+		vector_destroy(data[i]);
+	
 	return 0;
 }
 
