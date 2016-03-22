@@ -6,8 +6,6 @@
 #include "window.h"
 #include "vector.h"
 
-#define PIXELS(s) ((uint32_t*)(s->pixels))
-
 #define TRAINING_SIZE 60
 
 int train();
@@ -33,7 +31,7 @@ int main()
 	wind.height = 600;
 	if (display_init(&wind) == EXIT_FAILURE)
 		return EXIT_FAILURE;
-	
+
 	if (train() == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
@@ -86,12 +84,12 @@ int main()
 				break;
 		}
 	}
-	
+
 	display_stop(&wind);
-	
+
 	for (i = 0; i < TRAINING_SIZE; i++)
 		vector_destroy(data[i]);
-	
+
 	return 0;
 }
 
