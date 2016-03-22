@@ -15,15 +15,13 @@ void plot(struct vector *v);
 struct vector *data[TRAINING_SIZE];
 struct window wind;
 
-int main()
+int main(void)
 {
 	SDL_Event e = {0};
 	bool running = false;
 	bool new = false;
 	int i = 0;
 	struct vector *v = NULL;
-	double error = 0;
-	double min_error = 0;
 
 	/* Start SDL window */
 	wind.title = "Simple machine learning of colours";
@@ -46,17 +44,7 @@ int main()
 			vector_random_values(v, 0, 255);
 			plot(v);
 			vector_normalise(v);
-			/* FIXME: be separate func */
-			min_error = vector_error(data[0], v);
-			for (i = 0; i < TRAINING_SIZE; i++)
-			{
-				error = vector_error(data[i], v);
-				if (error < min_error)
-				{
-					min_error = error;
-					v->label = data[i]->label;
-				}
-			}
+			v = vector_closest(data, TRAINING_SIZE, v);
 			printf("I think this is %s\n", v->label);
 			vector_destroy(v);
 			new = false;

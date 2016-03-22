@@ -88,3 +88,31 @@ void vector_random_values(struct vector *v, long min, long max)
 	for (i = 0; i < v->dimensions; i++)
 		v->values[i] = min + rand()%(int)(max - min);
 }
+
+
+/* find vector in array of vectors with least error from another vector */
+struct vector* vector_closest(struct vector **vectors, size_t size, struct vector *vector)
+{
+	unsigned long i;
+	double min_error = 0;
+	double error = 0;
+	struct vector *result = NULL;
+
+	/* preload a valid error value and result */
+	result = vector;
+	min_error = vector_error(vectors[0], result);
+
+	/* find vector in `vectors` with lowest error from `vector` */
+	for (i = 0; i < size; i++)
+	{
+		error = vector_error(vectors[i], result);
+		if (error < min_error)
+		{
+			min_error = error;
+			result = vectors[i];
+		}
+	}
+	return result;
+}
+
+
