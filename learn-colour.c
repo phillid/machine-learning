@@ -108,7 +108,7 @@ void plot(struct vector *v)
 	/* Clear/blank surface with grey, and update it */
 	SDL_FillRect(wind.surface,
 				 NULL,
-				 SDL_MapHSV(wind.surface->format,
+				 SDL_MapRGB(wind.surface->format,
 				            v->values[0], v->values[1], v->values[2]));
 	SDL_UpdateWindowSurface(wind.window);
 }
