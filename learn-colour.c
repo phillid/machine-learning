@@ -6,7 +6,7 @@
 #include "window.h"
 #include "vector.h"
 
-#define TRAINING_SIZE 60
+#define TRAINING_SIZE 10
 
 int train();
 void plot(struct vector *v);
@@ -19,9 +19,9 @@ int main(void)
 {
 	SDL_Event e = {0};
 	bool running = false;
-	bool new = false;
 	int i = 0;
 	struct vector *v = NULL;
+	struct vector *closest = NULL;
 
 	/* Start SDL window */
 	wind.title = "Simple machine learning of colours";
@@ -34,21 +34,8 @@ int main(void)
 		return EXIT_FAILURE;
 
 	running = true;
-	new = true;
 	while (running)
 	{
-		if (new)
-		{
-			v = vector_new(3);
-			/* choose a random vector */
-			vector_random_values(v, 0, 255);
-			plot(v);
-			vector_normalise(v);
-			v = vector_closest(data, TRAINING_SIZE, v);
-			printf("I think this is %s\n", v->label);
-			vector_destroy(v);
-			new = false;
-		}
 		SDL_WaitEvent(&e);
 		switch (e.type)
 		{
@@ -66,7 +53,13 @@ int main(void)
 						running = false;
 						break;
 				}
-				new = true;
+				v = vector_new(3);
+				/* choose a random vector */
+				vector_random_values(v, 0, 255);
+				plot(v);
+				closest = vector_closest(data, TRAINING_SIZE, v);
+				printf("I think this is %s\n", closest->label);
+				vector_destroy(v);
 				break;
 			default:
 				break;
