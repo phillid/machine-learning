@@ -12,11 +12,11 @@ int display_init(struct window *wobj)
 
 	/* Create run-of-the-mill window at specified size */
 	wobj->window = SDL_CreateWindow(
-			wobj->title,
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			wobj->width, wobj->height,
-			SDL_WINDOW_SHOWN
-		);
+		wobj->title,
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		wobj->width, wobj->height,
+		SDL_WINDOW_SHOWN
+	);
 	if (wobj->window == NULL)
 	{
 		fprintf(stderr, "Couldn't create window: %s\n", SDL_GetError());
