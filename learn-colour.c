@@ -9,6 +9,7 @@
 #define TRAINING_SIZE 10
 
 int train();
+void show_off(struct vector **data, size_t data_size);
 void plot(struct vector *v);
 
 /* to do: make non-global */
@@ -20,8 +21,6 @@ int main(void)
 	SDL_Event e = {0};
 	bool running = false;
 	int i = 0;
-	struct vector *v = NULL;
-	struct vector *closest = NULL;
 
 	/* Start SDL window */
 	wind.title = "Simple machine learning of colours";
@@ -53,13 +52,7 @@ int main(void)
 						running = false;
 						break;
 				}
-				v = vector_new(3);
-				/* choose a random vector */
-				vector_random_values(v, 0, 255);
-				plot(v);
-				closest = vector_closest(data, TRAINING_SIZE, v);
-				printf("I think this is %s\n", closest->label);
-				vector_destroy(v);
+				show_off(data, TRAINING_SIZE);
 				break;
 			default:
 				break;
@@ -116,4 +109,18 @@ int train()
 		data[i] = v;
 	}
 	return EXIT_SUCCESS;
+}
+
+void show_off(struct vector **data, size_t data_size)
+{
+	struct vector *v = NULL;
+	struct vector *closest = NULL;
+
+	v = vector_new(3);
+	/* choose a random vector */
+	vector_random_values(v, 0, 255);
+	plot(v);
+	closest = vector_closest(data, data_size, v);
+	printf("I think this is %s\n", closest->label);
+	vector_destroy(v);
 }
