@@ -32,7 +32,9 @@ int main(void)
 	if (train() == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
+
 	running = true;
+	show_off(data, TRAINING_SIZE);
 	while (running)
 	{
 		SDL_WaitEvent(&e);
