@@ -53,6 +53,7 @@ double vector_error(const struct vector *v1, const struct vector *v2)
 {
 	unsigned long i = 0;
 	double running = 0.f;
+
 	if (v1->dimensions != v2->dimensions)
 		return NAN;
 
@@ -63,21 +64,23 @@ double vector_error(const struct vector *v1, const struct vector *v2)
 	return sqrt(running);
 }
 
-void vector_average(struct vector *v, struct vector **vs, const unsigned long count)
+int vector_average(struct vector *v, struct vector **vs, const unsigned long count)
 {
 	unsigned long i = 0;
 	unsigned long dim = 0;
 
-	/* FIXME: doesn't check that dimensions line up */
-
 	for (dim = 0; dim < v->dimensions; dim++)
 	{
+		if (v->dimensions > vs[i]->dimensions)
+			return 1;
+
 		v->values[dim] = 0.f;
 		for (i = 0; i < count; i++)
 			v->values[dim] += vs[i]->values[dim];
 
 		v->values[dim] /= i;
 	}
+	return 0;
 }
 
 /* fill existing vector with random values between min and max */
