@@ -6,7 +6,7 @@
 #include "window.h"
 #include "vector.h"
 
-#define TRAINING_SIZE 10
+#define TRAINING_SIZE 60
 
 int train();
 void show_off(struct vector **data, size_t data_size);
