@@ -8,18 +8,18 @@
 
 #define TRAINING_SIZE 60
 
-int train();
+int train(struct vector **data);
 void show_off(struct vector **data, size_t data_size);
 void plot(struct vector *v);
 
 /* to do: make non-global */
-struct vector *data[TRAINING_SIZE];
 struct window wind;
 
 int main(void)
 {
 	SDL_Event e = {0};
 	bool running = false;
+	struct vector *data[TRAINING_SIZE];
 	int i = 0;
 
 	/* Start SDL window */
@@ -29,7 +29,7 @@ int main(void)
 	if (display_init(&wind) == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
-	if (train() == EXIT_FAILURE)
+	if (train(data) == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
 
@@ -87,7 +87,7 @@ void plot(struct vector *v)
 	SDL_UpdateWindowSurface(wind.window);
 }
 
-int train()
+int train(struct vector **data)
 {
 	int i = 0;
 	struct vector *v = NULL;
