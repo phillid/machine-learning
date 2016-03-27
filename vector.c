@@ -4,7 +4,6 @@
 
 #include "vector.h"
 
-
 /* create new vector of specified dimensions */
 struct vector *vector_new(unsigned long dimensions)
 {

@@ -79,7 +79,7 @@ void plot(struct vector *v)
 		return;
 	}
 
-	/* Clear/blank surface with grey, and update it */
+	/* Clear/blank surface with vector's colour, and update it */
 	SDL_FillRect(wind.surface,
 				 NULL,
 				 SDL_MapRGB(wind.surface->format,
@@ -92,7 +92,6 @@ int train()
 	int i = 0;
 	struct vector *v = NULL;
 	char buffer[1024];
-
 
 	for (i = 0; i < TRAINING_SIZE; i++)
 	{

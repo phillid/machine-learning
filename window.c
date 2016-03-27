@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 
+/* starts an SDL window based on dimensions in *wobj, setting wobj->window
+ * to the freshly created window*/
 int display_init(struct window *wobj)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -37,6 +39,8 @@ int display_init(struct window *wobj)
 	return EXIT_SUCCESS;
 }
 
+
+/* Get SDL to destroy the window at wobj->window */
 void display_stop(struct window *wobj)
 {
 	SDL_DestroyWindow(wobj->window);
