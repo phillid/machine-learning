@@ -1,6 +1,3 @@
-#ifndef WINDOW_H
-#define WINDOW_H
-
 #include <SDL.h>
 #include <stdbool.h>
 
@@ -15,6 +12,3 @@ struct window {
 
 int display_init(struct window *wobj);
 void display_stop(struct window *wobj);
-
-
-#endif
