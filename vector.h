@@ -12,3 +12,5 @@ double vector_error(const struct vector *v1, const struct vector *v2);
 int vector_average(struct vector *v, struct vector **vs, const unsigned long count);
 void vector_random_values(struct vector *v, long min, long max);
 struct vector* vector_closest(struct vector **vectors, size_t size, struct vector *vector);
+int vectors_store(FILE *f, struct vector **data, size_t count);
+struct vector *vector_load(FILE *f, size_t dimensions);

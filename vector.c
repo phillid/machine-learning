@@ -1,5 +1,8 @@
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
+#include <string.h>
 
 #include "vector.h"
 
@@ -117,3 +120,62 @@ struct vector* vector_closest(struct vector **vectors, size_t size, struct vecto
 }
 
 
+int vectors_store(FILE *f, struct vector **data, size_t count)
+{
+	size_t i = 0;
+	size_t dim = 0;
+
+	for (i = 0; i < count; i++)
+	{
+		fputs(data[i]->label, f);
+		fputc('\n', f);
+		for (dim = 0; dim < data[0]->dimensions; dim++)
+		{
+			fprintf(f, "%.*g,", DBL_DECIMAL_DIG, data[i]->values[dim]);
+		}
+		fputc('\n', f);
+
+		/* FIXME better error checking */
+		if (ferror(f))
+			return 1;
+	}
+	return 0;
+}
+
+struct vector *vector_load(FILE *f, size_t dimensions)
+{
+	struct vector *ret = NULL;
+	size_t dim = 0;
+	char buffer[1024];
+	char *next = buffer;
+	char *new = NULL;
+
+	if (!(ret = vector_new(dimensions)))
+		return NULL;
+
+	/* read label */
+	/* FIXME labels larger than sizeof(buffer)-1 */
+	fgets(buffer, sizeof(buffer), f);
+	buffer[strcspn(buffer, "\r\n")] = '\0';
+	ret->label = strdup(buffer);
+
+	/* read vector values */
+	/* FIXME lines larger than sizeof(buffer)-1 */
+	fgets(buffer, sizeof(buffer), f);
+	for (dim = 0; dim < dimensions; dim++)
+	{
+		new = strchr(next, ',');
+		if (new != NULL)
+			*new = '\0';
+
+		/* FIXME check for strtod error */
+		ret->values[dim] = strtod(next, NULL);
+		next = new + 1;
+	}
+
+	if (dim != dimensions) {
+		vector_destroy(ret);
+		return NULL;
+	}
+	return ret;
+}
